@@ -1,11 +1,7 @@
 # kether
 easy to use ethereum client
 
-## Features
-- web3
-- etherscan api
-
-## Install
+## Get Started
 ```bash
 $ npm install kether
 ```
