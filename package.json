@@ -1,7 +1,7 @@
 {
    "name": "kether",
    "version": "0.0.1",
-   "description": "easy to use ethereum",
+   "description": "easy to use ethereum client",
    "main": "./src/index.js",
    "engines": {
       "node": ">=10.0.0"
@@ -18,17 +18,25 @@
    },
    "repository": {
       "type": "git",
-      "url": "git+https://github.com/crispy43/kether.git"
+      "url": "https://github.com/crispy43/kether.git"
    },
    "keywords": [
       "ethereum",
       "web3",
       "etherscan"
    ],
-   "author": "crispy43",
+   "author": {
+      "name": "Sungjae Jin",
+      "email": "crispy4343@gmail.com",
+      "url": "https://github.com/crispy43/kether"
+   },
+   "contributors": [
+      "Sungjae Jin <crispy4343@gmail.com> (https://github.com/crispy43/kether)"
+   ],
    "license": "MIT",
    "bugs": {
-      "url": "https://github.com/crispy43/kether/issues"
+      "url": "https://github.com/crispy43/kether/issues",
+      "email": "crispy4343@gmail.com"
    },
-   "homepage": "https://github.com/crispy43/kether#readme"
+   "homepage": "https://github.com/crispy43/kether"
 }

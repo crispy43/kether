@@ -13,5 +13,5 @@ const kether = new Kether({
    kether.addAccount('0x09Fdf95D6F96dE428Aa8A0fd9094Bf0EAa8e3F77');
    console.log(kether.accounts);
    console.log(await kether.getBalance());
-   // console.log(kether.data);
+   console.log(kether.details);
 })();

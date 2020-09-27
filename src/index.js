@@ -2,7 +2,6 @@ const { mix } = require('mixwith');
 const Web3 = require('./classes/web3');
 const Etherscan = require('./classes/ethscan');
 const EthMethods = require('./classes/eth.methods');
-const web3Eth = require('./functions/web3.eth');
 
 
 
