@@ -31,7 +31,7 @@ const EthMethods = require('./classes/eth.methods');
 
 module.exports = class extends mix(class Kether {}).with(Web3, Etherscan, EthMethods) {
    constructor({
-      provider, infuraId, etherscanKey, chain = 'mainnet', type, timeout = 30 * 1000
+      provider, infuraId, etherscanKey, chain = 'mainnet', type, timeout = 15 * 1000
    } = {}) {
 
       // super

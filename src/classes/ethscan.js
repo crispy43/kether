@@ -18,6 +18,7 @@ module.exports = Mixin((SuperClass) => class extends SuperClass {
       this._ethscanKey = etherscanKey;
       this._ethscan = got.extend({
          prefixUrl,
+         timeout,
          searchParams: {
             apiKey: etherscanKey
          }

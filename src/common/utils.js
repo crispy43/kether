@@ -1,10 +1,3 @@
-// catch error
-exports.catchError = (error)=> {
-   return new Error(error);
-}
-
-
-
 // parse etherscan response data
 exports.parseEthscanData = (data)=> {
    if (!data.status || !data.result) {
