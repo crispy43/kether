@@ -55,3 +55,38 @@ exports.getEthBalanceMulti = async (ethscan, accounts) => {
       return new Error((error.message) ? error.message : error);
    }
 }
+
+
+
+/**
+ * 일반 트랜잭션 내역 조회
+ *
+ * @param {Object} ethscan ethscan 인스턴스
+ * @param {String} address ETH 주소
+ * @param {String} sort 정렬
+ * @param {Number} offset 오프셋
+ * @param {Number} page 페이지
+ * @return {Object} result
+ */
+
+exports.getNormalTransactions = async (ethscan, address, sort, offset, page) => {
+   try {
+      const data = await ethscan.get({
+         searchParams: {
+            module: 'account',
+            action: 'txlist',
+            address,
+            startblock: 0,
+            endblock: 99999999,
+            sort,
+            offset,
+            page,
+        }
+      }).json();
+      
+      return parseEthscanData(data);
+
+   } catch (error) {
+      return new Error((error.message) ? error.message : error);
+   }
+}

@@ -22,7 +22,7 @@ const EthMethods = require('./classes/eth.methods');
  * @param {Object} options 인스턴스 생성 옵션
  * @param {String} options.provider web3 원격 노드 연결 주소
  * @param {String} options.infuraId infura.io 연결 아이디
- * @param {String} options.etherscanKey etherscan.io API KEY
+ * @param {String=} options.etherscanKey etherscan.io API KEY (optional)
  * @param {String} [options.chain = mainnet] 이더리움 블록체인 네트워크, mainnet 또는 ropsten
  * @param {String} options.type web3 연결 프로토콜 종류, http 또는 ws
  * @param {String} options.timeout web3와 이더스캔 요청 제한 시간 (ms)

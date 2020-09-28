@@ -2,8 +2,9 @@
 easy to use ethereum client
 
 ## Get Started
-it is necessary that remote provider and [etherscan.io](https://etherscan.io/apis) api key.
-if you don't have any provider url, you can use [infura.io](https://infura.io/) account.
+it is necessary that ethereum remote node provider.  
+if you don't have any provider url, you can use [infura.io](https://infura.io/) account.  
+(currently etherscan api key is not essential)
 ```bash
 $ npm install kether
 ```
