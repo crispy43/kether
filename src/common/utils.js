@@ -1,10 +1,20 @@
 // parse etherscan response data
-exports.parseEthscanData = (data)=> {
+exports.parseEthscanData = (data) => {
    if (!data.status || !data.result) {
       throw new Error('invalid data');
    } else if (parseInt(data.status) === 1) {
       return data.result;
    } else if (parseInt(data.status) < 1) {
-      return new Error(data.result);
+      return new Error(data.message);
    } else throw data;
+}
+
+
+
+// localTransaction
+exports.localTransaction = (transaction, nonce) => {
+   return {
+      transaction,
+      nonce: (parseInt(nonce) >= 0) ? parseInt(nonce) : -1
+   };
 }

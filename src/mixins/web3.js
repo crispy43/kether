@@ -65,11 +65,30 @@ module.exports = Mixin((SuperClass) => class extends SuperClass {
       }
    }
 
+
+
+   // info
    get currentProvider() {
       return this._web3.currentProvider;
    }
 
    get web3Version() {
       return this._web3.version;
+   }
+
+
+
+   // utils
+   isAddress(address) {
+      if (this._web3.utils.isAddress(address)) return address;
+      else throw new Error('invalid address');
+   }
+
+   fromWei(value, unit) {
+      return this._web3.utils.fromWei(value, unit);
+   }
+
+   toWei(value, unit) {
+      return this._web3.utils.toWei(value, unit);
    }
 });

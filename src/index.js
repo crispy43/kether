@@ -1,63 +1,71 @@
 const { mix } = require('mixwith');
-const Web3 = require('./classes/web3');
-const Etherscan = require('./classes/ethscan');
-const EthMethods = require('./classes/eth.methods');
+const Web3 = require('./mixins/web3');
+const Etherscan = require('./mixins/ethscan');
+const Ether = require('./mixins/ether');
+const Transaction = require('./mixins/transaction');
+const Contract = require('./mixins/contract');
 
 
 
 /**
- * kether.js
- * 
- * @version 0.0.1
+ * @name kether.js
  * @author Sungjae Jin 2020 <crispy4343@gmail.com>
+ * @version 0.1.0
  * @see {@link https://github.com/crispy43/kether}
  */
 
 
 
 /**
- * Kether
- * 
+ * @namespace Kether
  * @class
+ * @classdesc Kether 인스턴스 생성
  * @param {Object} options 인스턴스 생성 옵션
  * @param {String} options.provider web3 원격 노드 연결 주소
- * @param {String} options.infuraId infura.io 연결 아이디
+ * @param {String=} options.infuraId infura.io 연결 아이디 (provider 없을 경우 필수)
  * @param {String=} options.etherscanKey etherscan.io API KEY (optional)
  * @param {String} [options.chain = mainnet] 이더리움 블록체인 네트워크, mainnet 또는 ropsten
- * @param {String} options.type web3 연결 프로토콜 종류, http 또는 ws
- * @param {String} options.timeout web3와 이더스캔 요청 제한 시간 (ms)
- * @return {Object} Kether instance
+ * @param {String} [options.type = https] web3 연결 프로토콜 종류, https 또는 wss
+ * @param {Number} [options.timeout = 15 * 1000] web3와 이더스캔 요청 제한 시간 (ms)
+ * @param {String=} options.account 기본 이더리움 주소
+ * @example
+ * const kether = new Kether({ infuraId: 'abcd...', account: '0x0...' });
+ * @returns {Object} Kether 인스턴스
  */
 
-module.exports = class extends mix(class Kether {}).with(Web3, Etherscan, EthMethods) {
+module.exports = class extends mix(class Kether {}).with(Web3, Etherscan, Ether, Transaction, Contract) {
    constructor({
-      provider, infuraId, etherscanKey, chain = 'mainnet', type, timeout = 15 * 1000
+      provider, infuraId, etherscanKey, chain = 'mainnet', type, timeout = 15 * 1000, account
    } = {}) {
 
       // super
-      let infuraProvider;
-      if (infuraId) {
+      let web3Provider;
+      if (!provider && infuraId) {
          switch (type) {
 
             case 'http':
             case 'https':
-               infuraProvider = `https://${chain}.infura.io/v3/${infuraId}`
+               web3Provider = `https://${chain}.infura.io/v3/${infuraId}`
                break;
 
             case 'ws':
             case 'wss':
-               infuraProvider = `wss://${chain}.infura.io/ws/v3/${infuraId}`
+               web3Provider = `wss://${chain}.infura.io/ws/v3/${infuraId}`
                break;
 
             default:
-               infuraProvider = `https://${chain}.infura.io/v3/${infuraId}`
+               web3Provider = `https://${chain}.infura.io/v3/${infuraId}`
                break;
          }
-      }
-      const prefixUrl = `https://api${(chain === 'mainnet') ? '' : '-' + chain}.etherscan.io/api`;
-      super((provider) ? provider : infuraProvider, type, timeout, prefixUrl, etherscanKey);
+      } else web3Provider = provider;
 
-      this._accounts = new Set([]);
+      const prefixUrl = `https://api${(chain === 'mainnet') ? '' : '-' + chain}.etherscan.io/api`;
+      super(web3Provider, type, timeout, prefixUrl, etherscanKey);
+
+      const defaultAccount = this.isAddress(account);
+
+      this._accounts = (defaultAccount) ? new Set([defaultAccount]) : new Set();
+      this._defaultAccount = (defaultAccount) ? defaultAccount : '';
       this._data = new Map();
       this._data.set('result', undefined);
       this._data.set('details', undefined);
@@ -70,24 +78,27 @@ module.exports = class extends mix(class Kether {}).with(Web3, Etherscan, EthMet
       return Array.from(this._accounts);
    }
 
-   set accounts(accounts) {
-      this._accounts = accounts;
-   }
-
-   addAccount(address) {
-      return this._accounts.add(address);
+   get defaultAccount() {
+      return this._defaultAccount;
    }
 
    hasAccount(address) {
       return this._accounts.has(address);
    }
 
+   addAccount(address, isDefault) {
+      const validAddress = this.isAddress(address);
+      if (!this._defaultAccount) this._defaultAccount = validAddress;
+      else if (isDefault) this._defaultAccount = validAddress;
+      return this._accounts.add(validAddress);
+   }
+
    delAccount(address) {
       return this._accounts.delete(address);
    }
 
-   clearAccounts() {
-      this._accounts.clear();
+   clearAccount() {
+      return this._accounts.clear();
    }
 
 
@@ -105,7 +116,7 @@ module.exports = class extends mix(class Kether {}).with(Web3, Etherscan, EthMet
       return Object.fromEntries(this._data.entries());
    }
 
-   setData(result, details = undefined) {
+   setData(result = true, details = undefined) {
       this._data.set('result', result);
       this._data.set('details', details);
    }

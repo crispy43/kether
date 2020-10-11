@@ -25,6 +25,9 @@ module.exports = Mixin((SuperClass) => class extends SuperClass {
       });
    }
 
+
+
+   // info
    get etherscanUrl() {
       return this._ethscanUrl;
    }

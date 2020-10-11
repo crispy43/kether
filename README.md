@@ -4,7 +4,7 @@ easy to use ethereum client
 ## Get Started
 it is necessary that ethereum remote node provider.  
 if you don't have any provider url, you can use [infura.io](https://infura.io/) account.  
-(currently etherscan api key is not essential)
+(currently etherscan api key is not required)
 ```bash
 $ npm install kether
 ```
@@ -16,7 +16,6 @@ const Kether = require('kether');
 const kether = new Kether({
    // provider: 'https://ropsten.infura.io/v3/7b893c9cbc55404sb6a322302d0100fa',
    infuraId: '7b893c9cbc55404sb6a322302d0100fa',
-   etherscanKey: 'EI9S61FUXK3P2K95UMXQDTM6U4AKBXU79Q',
    type: 'https',
    chain: 'ropsten'
 });
